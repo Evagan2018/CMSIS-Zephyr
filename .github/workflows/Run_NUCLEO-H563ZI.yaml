@@ -20,11 +20,12 @@ on:
   workflow_run:
     workflows: ["Build NUCLEO-H563ZI Debug HIL"]
     types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   CI:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}  
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push') }}
     runs-on: [self-hosted, rsp-p5-01]
 
     steps:
